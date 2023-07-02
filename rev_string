@@ -1,0 +1,23 @@
+#!/bin/bash 
+  sum=1
+  string=$1
+  num=`echo $string | wc -c`
+  while [ $sum -lt $num ]
+   do 
+  cut=`echo $string | cut -c$sum`
+  echo $cut >> string_file 
+  sum=`expr $sum + 1`
+ done 
+set -x
+cat string_file > file2
+   lines=`cat $file2 | wc -l`
+   while [ $lines -gt 0 ]
+    do 
+    head -$lines $file2 | tail -1 >> string_file2
+    lines=`expr $lines - 1`
+    done
+rev_string=`cat string_file2 | xargs | sed 's/ //g'` 
+echo $rev_string 
+
+#rm string_file
+rm string_file2
